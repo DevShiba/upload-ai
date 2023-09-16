@@ -15,24 +15,29 @@ import { Slider } from "./components/ui/slider";
 import { VideoInputForm } from "./components/video-input-form";
 import { PromptSelect } from "./components/prompt-select";
 import { useState } from "react";
-import {useCompletion} from "ai/react"
+import { useCompletion } from "ai/react";
 
 export function App() {
-  const [temperature, setTemperature] = useState(0.5)
-  const [videoId, setVideoId] = useState<string | null>(null)
+  const [temperature, setTemperature] = useState(0.5);
+  const [videoId, setVideoId] = useState<string | null>(null);
 
-
-
-  const { input, setInput, handleInputChange, handleSubmit, completion, isLoading  } = useCompletion({
-    api:'http://localhost:3333/ai/complete',
-    body:{
+  const {
+    input,
+    setInput,
+    handleInputChange,
+    handleSubmit,
+    completion,
+    isLoading,
+  } = useCompletion({
+    api: "http://localhost:3333/ai/complete",
+    body: {
       videoId,
       temperature,
     },
-    headers:{
-      'Content-Type': 'application/json',
-    }
-  })
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -43,10 +48,12 @@ export function App() {
           <span className="text-muted-foreground">Desenvolvido por Shiba</span>
 
           <Separator orientation="vertical" className="h-6" />
-          <Button variant="outline">
-            <Github className="w-4 h-4 mr-2" />
-            Github
-          </Button>
+          <a href="https://github.com/DevShiba" target="_blank">
+            <Button variant="outline">
+              <Github className="w-4 h-4 mr-2" />
+              Github
+            </Button>
+          </a>
         </div>
       </div>
 
@@ -68,21 +75,21 @@ export function App() {
           </div>
 
           <p className="text-sm text-muted-foreground">
-            Lembre-se: você pode utilizar a variável{" "}
-            <code className="text-violet-400">{"{transcription}"}</code>
+            Lembre-se: você pode utilizar a variável
+            <code className="text-violet-400"> {"{transcription}"} </code>
             no seu prompt para adicionar o conteúdo da transcrição do video
             selecionado.
           </p>
         </div>
         <aside className="w-80 space-y-6">
-          <VideoInputForm onVideoUploaded={setVideoId}/>
+          <VideoInputForm onVideoUploaded={setVideoId} />
 
           <Separator />
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
               <Label>Prompt</Label>
-              <PromptSelect onPromptSelected={setInput}/>
+              <PromptSelect onPromptSelected={setInput} />
             </div>
 
             <div className="space-y-2">
@@ -104,7 +111,13 @@ export function App() {
 
             <div className="space-y-4">
               <Label>Temperatura</Label>
-              <Slider min={0} max={1} step={0.1} value={[temperature]} onValueChange={value => setTemperature(value[0])}/>
+              <Slider
+                min={0}
+                max={1}
+                step={0.1}
+                value={[temperature]}
+                onValueChange={(value) => setTemperature(value[0])}
+              />
               <span className="block text-xs text-muted-foreground italic leading-relaxed">
                 Valores mais alto tendem a deixar o resultado mais criativo e
                 com possíveis erros.
